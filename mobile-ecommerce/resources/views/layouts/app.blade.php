@@ -18,7 +18,7 @@
                     <a class="hover:text-slate-900" href="{{ url('/') }}">Home</a>
                     <a class="hover:text-slate-900" href="{{ url('/products') }}">Products</a>
                     <a class="hover:text-slate-900" href="{{ url('/cart') }}">Cart</a>
-                    <a class="hover:text-slate-900" href="{{ url('/categories') }}">categories</a>
+                    <a class="hover:text-slate-900" href="{{ url('/categories') }}">Categories</a>
                     <a class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-700" href="{{ url('/login') }}">Login</a>
                 </div>
             </nav>
