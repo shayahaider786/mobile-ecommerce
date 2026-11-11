@@ -31,7 +31,8 @@
 }
 
 .nav-link:hover {
-    color: #2dd4bf; /* teal-400 */
+    color: #2dd4bf;
+    /* teal-400 */
 }
 
 /* Mega Menu Dropdown Styling */
@@ -39,10 +40,12 @@
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%; /* <-- Yahan 100vw ki jagah 100% kiya hai */
+    width: 100%;
+    /* <-- Yahan 100vw ki jagah 100% kiya hai */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #0f172a; /* Slate 900 */
+    background-color: #0f172a;
+    /* Slate 900 */
     border-bottom: 1px solid #334155;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
     opacity: 0;
@@ -100,3 +103,67 @@
     font-size: 14px;
     font-weight: 600;
 }
+
+
+/* =========================================
+   Circular Category Slider Styles
+   ========================================= */
+.category-slider-track {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.category-slider-track::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+}
+
+.category-item {
+    width: 140px;
+    /* Har item ki fixed width taake slider smooth chale */
+}
+
+.category-circle-box {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-item:hover .category-circle-box {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Fallback background colors agar database items hon */
+.circle-bg-0 {
+    background-color: #d1fae5;
+}
+
+/* Emerald */
+.circle-bg-1 {
+    background-color: #fbcfe8;
+}
+
+/* Pink */
+.circle-bg-2 {
+    background-color: #bae6fd;
+}
+
+/* Sky */
+.circle-bg-3 {
+    background-color: #fde68a;
+}
+
+/* Amber */
+.circle-bg-4 {
+    background-color: #fecdd3;
+}
+
+/* Rose */

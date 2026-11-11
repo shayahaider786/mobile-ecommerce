@@ -6,15 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu');
     const overlay = document.getElementById('mobile-menu-overlay');
 
-
     const productsBtn = document.getElementById('products-btn');
     const megaMenu = document.getElementById('mega-menu');
+
+    const slider = document.getElementById('category-slider');
+    const prevBtn = document.getElementById('category-prev');
+    const nextBtn = document.getElementById('category-next');
 
     function openMenu() {
         if (mobileMenu && overlay) {
             mobileMenu.classList.remove('hidden'); // Make it visible in DOM first
             // Force a small browser reflow frame
-            void mobileMenu.offsetWidth; 
+            void mobileMenu.offsetWidth;
             mobileMenu.classList.add('open');
             overlay.classList.add('open');
             document.body.classList.add('overflow-hidden');
@@ -26,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileMenu.classList.remove('open');
             overlay.classList.remove('open');
             document.body.classList.remove('overflow-hidden');
-            
+
             // Wait for slide-out transition to finish before adding hidden back
             setTimeout(() => {
                 if (!mobileMenu.classList.contains('open')) {
@@ -42,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             openMenu();
         });
     }
-    
+
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     if (overlay) overlay.addEventListener('click', closeMenu);
 
@@ -66,6 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     svg.style.transform = 'rotate(0deg)';
                 }
             }
+        });
+    }
+
+    if (slider && prevBtn && nextBtn) {
+        const scrollAmount = 250; // Ek click par kitna scroll ho
+
+        nextBtn.addEventListener('click', () => {
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         });
     }
 });
