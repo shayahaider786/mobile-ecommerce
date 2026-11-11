@@ -167,3 +167,13 @@
 }
 
 /* Rose */
+
+
+/* =========================================
+   Custom Hero Banner Slider Styles
+   ========================================= */
+#hero-dots .hero-dot.active {
+    background-color: #2dd4bf !important; /* Teal active color */
+    width: 24px;
+    border-radius: 6px;
+}

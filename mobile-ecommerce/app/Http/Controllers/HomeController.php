@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Features\Category\Services\CategoryService;
-
+use App\Features\Banner\Services\BannerService;
 class HomeController extends Controller
 {
     /**
@@ -22,11 +22,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(CategoryService $categoryService)
+    public function index(CategoryService $categoryService, BannerService $bannerService)
     {
-       // Frontend ke liye active categories fetch karo
         $categories = $categoryService->getActiveCategories();
-
-        return view('home', compact('categories'));
+        $banners = $bannerService->getActiveBanners();
+        return view('home', compact('categories', 'banners'));
     }
 }

@@ -4,36 +4,70 @@
 
 @section('content')
 
-    <!-- ================= 1. HERO BANNER SECTION ================= -->
-    <section class="relative bg-indigo-900 overflow-hidden">
-        <div class="absolute inset-0">
-            <!-- Background Image Overlay -->
-            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2070&auto=format&fit=crop"
-                alt="Banner Background" class="w-full h-full object-cover opacity-30">
-            <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/90 to-indigo-900/40"></div>
-        </div>
+    <!-- ================= 1. HERO BANNER CUSTOM SLIDER ================= -->
+    <section class="relative w-full bg-slate-900 overflow-hidden">
+        @if ($banners->count() > 0)
+            <div class="relative w-full h-[450px] md:h-[450px] sm:h-[400px]">
+                <!-- Slider Track -->
+                <div id="hero-slider" class="flex w-full h-full transition-transform duration-500 ease-in-out">
+                    @foreach ($banners as $banner)
+                        <div class="hero-slide min-w-full h-full relative flex-shrink-0">
+                            <!-- Desktop Image -->
+                            <img src="{{ asset('banners/' . $banner->desktop_image) }}"
+                                class="hidden md:block w-full h-full object-cover" alt="{{ $banner->title }}">
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex items-center">
-            <div class="md:w-1/2">
-                <span
-                    class="inline-block py-1 px-3 rounded-full bg-indigo-500/20 text-indigo-300 text-sm font-semibold tracking-wider mb-4 border border-indigo-400/30">NEW
-                    ARRIVALS</span>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
-                    Discover Your <br> Perfect Style.
-                </h1>
-                <p class="text-lg text-indigo-100 mb-8 max-w-lg">
-                    Shop the latest trends in fashion, electronics, and lifestyle. Premium quality at unbeatable prices.
-                </p>
-                <div class="flex space-x-4">
-                    <a href="#"
-                        class="bg-white text-indigo-900 px-8 py-3 rounded-lg font-bold hover:bg-indigo-50 transition shadow-lg">Shop
-                        Now</a>
-                    <a href="#"
-                        class="border border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition">View
-                        Collections</a>
+                            <!-- Mobile Image -->
+                            <img src="{{ asset('banners/' . ($banner->mobile_image ?? $banner->desktop_image)) }}"
+                                class="block md:hidden w-full h-full object-cover" alt="{{ $banner->title }}">
+
+                            <!-- Text Overlay -->
+                            <div class="absolute inset-0 bg-black/40 flex items-center">
+                                <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full">
+                                    <div class="max-w-lg text-white">
+                                        @if ($banner->subtitle)
+                                            <span
+                                                class="inline-block py-1 px-3 rounded bg-teal-500 text-xs font-bold tracking-wider mb-4 uppercase">Featured</span>
+                                        @endif
+
+                                        @if ($banner->title)
+                                            <h1
+                                                class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 drop-shadow-lg">
+                                                {{ $banner->title }}
+                                            </h1>
+                                        @endif
+
+                                        @if ($banner->subtitle)
+                                            <p class="text-sm md:text-lg mb-8 drop-shadow-md text-gray-100">
+                                                {{ $banner->subtitle }}
+                                            </p>
+                                        @endif
+
+                                        @if ($banner->button_name && $banner->link)
+                                            <a href="{{ $banner->link }}"
+                                                class="inline-block bg-white text-slate-900 font-bold px-8 py-3 rounded hover:bg-teal-500 hover:text-white transition shadow-lg">
+                                                {{ $banner->button_name }}
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Custom Dots Pagination (Bottom) -->
+                <div id="hero-dots" class="absolute bottom-4 left-0 right-0 z-10 flex justify-center gap-2">
+                    @foreach ($banners as $index => $banner)
+                        <button data-index="{{ $index }}"
+                            class="hero-dot w-3 h-3 rounded-full bg-white/50 transition-all duration-300"></button>
+                    @endforeach
                 </div>
             </div>
-        </div>
+        @else
+            <div class="w-full h-[300px] md:h-[500px] bg-slate-800 flex items-center justify-center text-white">
+                <p>No Banner Active. Please upload from Admin Panel.</p>
+            </div>
+        @endif
     </section>
 
     <!-- ================= 2. CATEGORIES SECTION (Circular Slider) ================= -->

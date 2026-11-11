@@ -5,6 +5,7 @@ use App\Features\Auth\Controllers\AdminDashboardController;
 use App\Features\Auth\Controllers\UserAuthController;
 use App\Features\Category\Controllers\AdminCategoryController;
 use App\Features\Category\Controllers\CategoryController;
+use App\Features\Banner\Controllers\AdminBannerController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,13 +43,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // 📦 Category CRUD
     Route::resource('categories', AdminCategoryController::class);
-    // ↑ Yeh 7 routes automatic bana deta hai:
-    //   GET    /admin/categories              → index
-    //   GET    /admin/categories/create       → create
-    //   POST   /admin/categories              → store
-    //   GET    /admin/categories/{id}/edit    → edit
-    //   PUT    /admin/categories/{id}         → update
-    //   DELETE /admin/categories/{id}         → destroy
-    //   GET    /admin/categories/{id}         → show
+    
+    // Banner CRUD
+    Route::resource('banners', AdminBannerController::class);
 
 });

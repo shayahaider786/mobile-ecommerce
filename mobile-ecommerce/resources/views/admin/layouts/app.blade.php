@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') — Admin Panel</title>
-    
+
     {{-- Robots: admin ko Google index na kare --}}
     <meta name="robots" content="noindex, nofollow">
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="min-h-screen bg-slate-100">
 
     {{-- Top Bar --}}
@@ -23,9 +25,7 @@
                 <span class="text-slate-600">
                     Hi, {{ Auth::guard('admin')->user()->name ?? 'Admin' }}
                 </span>
-                <a href="{{ url('/') }}" 
-                   target="_blank"
-                   class="text-indigo-600 hover:underline">
+                <a href="{{ url('/') }}" target="_blank" class="text-indigo-600 hover:underline">
                     View Site ↗
                 </a>
             </div>
@@ -39,36 +39,43 @@
             {{-- ============ SIDEBAR ============ --}}
             <aside class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 h-fit">
                 <h2 class="text-lg font-semibold">Admin panel</h2>
-                
+
                 <nav class="mt-4 space-y-2" aria-label="Admin navigation">
 
                     {{-- Dashboard --}}
                     <a class="block rounded-lg px-3 py-2 text-sm font-medium transition
-                              {{ request()->routeIs('admin.dashboard') 
-                                    ? 'bg-indigo-50 text-indigo-700' 
-                                    : 'text-slate-700 hover:bg-slate-50' }}"
-                       href="{{ route('admin.dashboard') }}">
+                              {{ request()->routeIs('admin.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-50' }}"
+                        href="{{ route('admin.dashboard') }}">
                         🏠 Dashboard
                     </a>
+                    {{-- Bannner --}}
+                    <a class="block rounded-lg px-3 py-2 text-sm font-medium transition
+                              {{ request()->routeIs('admin.banners.*')
+                                  ? 'bg-indigo-50 text-indigo-700'
+                                  : 'text-slate-700 hover:bg-slate-50' }}"
+                        href="{{ route('admin.banners.index') }}">
+                        Banners
+                    </a>
+
 
                     {{-- Categories --}}
                     <a class="block rounded-lg px-3 py-2 text-sm font-medium transition
-                              {{ request()->routeIs('admin.categories.*') 
-                                    ? 'bg-indigo-50 text-indigo-700' 
-                                    : 'text-slate-700 hover:bg-slate-50' }}"
-                       href="{{ route('admin.categories.index') }}">
+                              {{ request()->routeIs('admin.categories.*')
+                                  ? 'bg-indigo-50 text-indigo-700'
+                                  : 'text-slate-700 hover:bg-slate-50' }}"
+                        href="{{ route('admin.categories.index') }}">
                         📦 Categories
                     </a>
 
                     {{-- Products (future) --}}
                     <a class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-                       href="#">
+                        href="#">
                         🛍️ Products
                     </a>
 
                     {{-- Orders (future) --}}
                     <a class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-                       href="#">
+                        href="#">
                         🧾 Orders
                     </a>
 
@@ -76,8 +83,9 @@
 
                 <form class="mt-6" method="POST" action="{{ route('admin.logout') }}">
                     @csrf
-                    <button class="w-full rounded-lg border border-slate-300 px-4 py-2 text-left text-sm font-medium hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
-                            type="submit">
+                    <button
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 text-left text-sm font-medium hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        type="submit">
                         🚪 Sign out
                     </button>
                 </form>
@@ -86,12 +94,12 @@
             {{-- ============ MAIN CONTENT ============ --}}
             <section>
                 {{-- Flash messages (global) --}}
-                @if(session('success'))
+                @if (session('success'))
                     <div class="mb-4 rounded-lg bg-green-100 px-4 py-3 text-green-800">
                         {{ session('success') }}
                     </div>
                 @endif
-                @if(session('error'))
+                @if (session('error'))
                     <div class="mb-4 rounded-lg bg-red-100 px-4 py-3 text-red-800">
                         {{ session('error') }}
                     </div>
@@ -104,4 +112,5 @@
     </div>
 
 </body>
+
 </html>
