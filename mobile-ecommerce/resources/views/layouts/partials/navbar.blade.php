@@ -43,21 +43,23 @@
                     <!-- MEGA MENU DROPDOWN -->
                     <div id="mega-menu" class="mega-menu-dropdown">
                         <div class="max-w-7xl mx-auto grid grid-cols-6 gap-4 p-6 w-full">
-                            <!-- Dummy Categories -->
-                            @forelse($categories as $cat)
-                                <a href="{{ route('categories.show', $cat->slug) }}" class="mega-item">
-                                    <div class="mega-img-box">
-                                        @if ($cat->image)
-                                            <img src="{{ asset('category-images/' . $cat->image) }}" alt="{{ $cat->name }}">
-                                        @else
-                                            <img src="https://via.placeholder.com/100" alt="{{ $cat->name }}">
-                                        @endif
-                                    </div>
-                                    <span class="mega-text">{{ $cat->name }}</span>
-                                </a>
-                            @empty
-                                <p class="col-span-6 text-center text-slate-400 py-4">No categories found.</p>
-                            @endforelse
+                            @isset($categories)
+                                @forelse($categories as $cat)
+                                    <a href="{{ route('categories.show', $cat->slug) }}" class="mega-item">
+                                        <div class="mega-img-box">
+                                            @if ($cat->image)
+                                                <img src="{{ asset('category-images/' . $cat->image) }}"
+                                                    alt="{{ $cat->name }}">
+                                            @else
+                                                <img src="https://via.placeholder.com/100" alt="{{ $cat->name }}">
+                                            @endif
+                                        </div>
+                                        <span class="mega-text">{{ $cat->name }}</span>
+                                    </a>
+                                @empty
+                                    <p class="col-span-6 text-center text-slate-400 py-4">No categories found.</p>
+                                @endforelse
+                            @endisset
                         </div>
                     </div>
                 </div>
