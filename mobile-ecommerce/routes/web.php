@@ -9,42 +9,43 @@ use App\Features\Banner\Controllers\AdminBannerController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 // ============================================
-// 🟢 FRONTEND ROUTES (Customer)
+// 🟢 FRONTEND ROUTES (Customer) - PUBLIC
 // ============================================
-Route::get('/categories',[CategoryController::class, 'index'])->name('categories.index');
-Route::get('/category/{slug}',[CategoryController::class, 'show'])->name('categories.show');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('categories.show');
 
+// Customer Auth
 Route::get('/login', [UserAuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [UserAuthController::class, 'login'])->middleware('throttle:5,1');
 Route::get('/register', [UserAuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// ============================================
+// 🔴 BACKEND ROUTES (Admin) - PROTECTED
+// ============================================
 Route::prefix('admin')->name('admin.')->group(function () {
+    
+    // Admin Login Routes (Bina auth ke, warna login kaise karega?)
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login'])
         ->middleware('throttle:5,1')
         ->name('login.submit');
-
-    // ⚠️ SIRF DEV KE LIYE — production mein comment kar dena
+        
     Route::get('/register', [AdminAuthController::class, 'showRegister'])->name('register');
-    Route::post('/register',[AdminAuthController::class, 'register'])->middleware('throttle:3,1');
+    Route::post('/register', [AdminAuthController::class, 'register'])->middleware('throttle:3,1');
+
+    // 🔒 YAHAN SE SIRF ADMIN HE ACCESS KAR SAKTA HAI
     Route::middleware('admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        
+        // Category & Banner CRUD (Yeh ANDAR aayenge)
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('banners', AdminBannerController::class);
     });
-
-    // 📦 Category CRUD
-    Route::resource('categories', AdminCategoryController::class);
-    
-    // Banner CRUD
-    Route::resource('banners', AdminBannerController::class);
 
 });
