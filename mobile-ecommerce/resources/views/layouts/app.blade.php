@@ -1,36 +1,92 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', config('app.name', 'Laravel'))</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'SDVAD - Mobile & Electronics')</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
-    <div class="flex min-h-screen flex-col">
-        <header class="border-b border-slate-200 bg-white">
-            <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-                <a class="text-xl font-bold tracking-tight text-slate-900" href="{{ url('/') }}">
-                    {{ config('app.name', 'Shop') }}
-                </a>
-                <div class="flex items-center gap-4 text-sm font-medium text-slate-600 sm:gap-6">
-                    <a class="hover:text-slate-900" href="{{ url('/') }}">Home</a>
-                    <a class="hover:text-slate-900" href="{{ url('/products') }}">Products</a>
-                    <a class="hover:text-slate-900" href="{{ url('/cart') }}">Cart</a>
-                    <a class="hover:text-slate-900" href="{{ url('/categories') }}">Categories</a>
-                    <a class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-700" href="{{ url('/login') }}">Login</a>
+
+<body class="font-sans text-slate-800 bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- ================= NAVBAR ================= -->
+    @include('layouts.partials.navbar')
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="flex-grow">
+        @yield('content')
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-slate-900 text-slate-300 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                <!-- Brand -->
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-4">ShopEase.</h2>
+                    <p class="text-sm text-slate-400 mb-4">Your one-stop destination for premium quality products. We
+                        deliver happiness to your doorstep.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-white">Fb</a>
+                        <a href="#" class="text-slate-400 hover:text-white">Tw</a>
+                        <a href="#" class="text-slate-400 hover:text-white">Ig</a>
+                    </div>
                 </div>
-            </nav>
-        </header>
-        <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
-            @yield('content')
-        </main>
-        <footer class="border-t border-slate-200 bg-white">
-            <div class="mx-auto max-w-7xl px-4 py-6 text-sm text-slate-500 sm:px-6 lg:px-8">
-                &copy; {{ date('Y') }} {{ config('app.name', 'Shop') }}. All rights reserved.
+
+                <!-- Links -->
+                <div>
+                    <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Shop</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-white transition">Best Sellers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Sale</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Support</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">FAQs</a></li>
+                        <li><a href="#" class="hover:text-white transition">Shipping Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Newsletter</h3>
+                    <p class="text-sm text-slate-400 mb-3">Subscribe for latest updates.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Email address"
+                            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-l-md text-sm focus:outline-none focus:border-indigo-500">
+                        <button type="submit"
+                            class="bg-indigo-600 px-4 py-2 rounded-r-md text-white text-sm hover:bg-indigo-700 transition">Go</button>
+                    </form>
+                </div>
+
             </div>
-        </footer>
-    </div>
+
+            <div class="border-t border-slate-800 mt-10 pt-6 text-center text-sm text-slate-500">
+                &copy; {{ date('Y') }} ShopEase. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu JS Script -->
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
 </body>
+
 </html>

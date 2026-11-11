@@ -24,7 +24,7 @@ Route::get('/register', [UserAuthController::class, 'showRegister'])->name('regi
 Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
