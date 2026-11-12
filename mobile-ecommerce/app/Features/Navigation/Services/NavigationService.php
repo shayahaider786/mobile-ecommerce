@@ -14,9 +14,12 @@ class NavigationService
             return NavigationLink::where('is_active', true)
                 ->whereNull('parent_id') // Sirf main links
                 ->orderBy('sort_order', 'asc')
-                ->with(['children' => function($q) {
-                    $q->where('is_active', true); // Sirf active sub-links
-                }, 'category.children']) // Category ke sath uski sub-categories bhi le aao
+                ->with([
+                    'category.children', // Agar main link category hai
+                    'children' => function($q) {
+                        $q->where('is_active', true)->with('category'); // Child link ki apni category (images ke liye)
+                    }
+                ])
                 ->get();
         });
     }

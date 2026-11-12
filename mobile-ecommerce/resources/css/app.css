@@ -31,29 +31,32 @@
 }
 
 .nav-link:hover {
-    color: #2dd4bf;
-    /* teal-400 */
+    color: #2dd4bf; /* teal-400 */
 }
 
-/* Mega Menu Dropdown Styling */
+/* =========================================
+   Mega Menu Dropdown Styling (Fixed)
+   ========================================= */
 .mega-menu-dropdown {
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
-    /* <-- Yahan 100vw ki jagah 100% kiya hai */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #0f172a;
-    /* Slate 900 */
-    border-bottom: 1px solid #334155;
+    width: 100vw;
+    max-width: 1200px;
+    background-color: #0f172a; /* Slate 900 */
+    border: 1px solid #334155;
+    border-radius: 0 0 16px 16px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.25s ease-in-out;
     z-index: 50;
+    margin-top: 1px;
 }
 
+/* Hover ya active hone par show hoga */
+.group:hover .mega-menu-dropdown,
 .mega-menu-dropdown.active {
     opacity: 1;
     visibility: visible;
@@ -75,8 +78,8 @@
 }
 
 .mega-img-box {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     overflow: hidden;
     background-color: #1e293b;
@@ -104,25 +107,36 @@
     font-weight: 600;
 }
 
+/* Sub-category image styling inside mega menu */
+.sub-cat-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #1e293b;
+    border: 1.5px solid #334155;
+    transition: border-color 0.2s ease;
+}
+
+.group\/sub:hover .sub-cat-img {
+    border-color: #2dd4bf;
+}
+
 
 /* =========================================
    Circular Category Slider Styles
    ========================================= */
 .category-slider-track {
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
 .category-slider-track::-webkit-scrollbar {
-    display: none;
-    /* Chrome, Safari and Opera */
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .category-item {
     width: 140px;
-    /* Har item ki fixed width taake slider smooth chale */
 }
 
 .category-circle-box {
@@ -141,39 +155,19 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Fallback background colors agar database items hon */
-.circle-bg-0 {
-    background-color: #d1fae5;
-}
-
-/* Emerald */
-.circle-bg-1 {
-    background-color: #fbcfe8;
-}
-
-/* Pink */
-.circle-bg-2 {
-    background-color: #bae6fd;
-}
-
-/* Sky */
-.circle-bg-3 {
-    background-color: #fde68a;
-}
-
-/* Amber */
-.circle-bg-4 {
-    background-color: #fecdd3;
-}
-
-/* Rose */
+/* Fallback background colors */
+.circle-bg-0 { background-color: #d1fae5; }
+.circle-bg-1 { background-color: #fbcfe8; }
+.circle-bg-2 { background-color: #bae6fd; }
+.circle-bg-3 { background-color: #fde68a; }
+.circle-bg-4 { background-color: #fecdd3; }
 
 
 /* =========================================
    Custom Hero Banner Slider Styles
    ========================================= */
 #hero-dots .hero-dot.active {
-    background-color: #2dd4bf !important; /* Teal active color */
+    background-color: #2dd4bf !important;
     width: 24px;
     border-radius: 6px;
 }
