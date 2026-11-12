@@ -208,44 +208,6 @@
 
     {{-- Include Global Delete Confirmation Modal Partial --}}
     @include('admin.layouts.partials.delete-modal')
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const deleteModal = document.getElementById('delete-modal');
-            const modalDeleteForm = document.getElementById('modal-delete-form');
-            const modalItemTitle = document.getElementById('modal-item-title');
-            const cancelBtn = document.getElementById('modal-cancel-btn');
-
-            // Sabhi delete buttons par click event lagayein
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const url = button.getAttribute('data-url');
-                    const title = button.getAttribute('data-title');
-
-                    // Form ka action aur title set karein
-                    modalDeleteForm.setAttribute('action', url);
-                    modalItemTitle.textContent = title;
-
-                    // Modal show karein
-                    deleteModal.classList.remove('hidden');
-                });
-            });
-
-            // Cancel button ya background click par modal band karein
-            function closeModal() {
-                deleteModal.classList.add('hidden');
-            }
-
-            if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
-            if (deleteModal) {
-                deleteModal.addEventListener('click', (e) => {
-                    if (e.target === deleteModal) closeModal();
-                });
-            }
-        });
-    </script>
-
-
 
 </body>
 
