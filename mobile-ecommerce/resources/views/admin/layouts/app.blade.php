@@ -94,7 +94,6 @@
                 </p>
 
                 <nav class="space-y-1.5" aria-label="Admin navigation">
-
                     {{-- Dashboard --}}
                     <a class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition
                             {{ request()->routeIs('admin.dashboard') ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-200' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}"
@@ -106,9 +105,9 @@
                         </svg>
                         Dashboard
                     </a>
-                    {{-- Navigation / Menu Links --}}
+                    {{-- Navigation --}}
                     <a class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition
-        {{ request()->routeIs('admin.navigation.*') ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-200' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}"
+                        {{ request()->routeIs('admin.navigation.*') ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-200' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}"
                         href="{{ route('admin.navigation.index') }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -127,7 +126,6 @@
                         </svg>
                         Banners
                     </a>
-
                     {{-- Categories --}}
                     <a class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition
                             {{ request()->routeIs('admin.categories.*') ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-200' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}"
@@ -139,28 +137,6 @@
                         </svg>
                         Categories
                     </a>
-
-                    {{-- Products --}}
-                    <a class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition"
-                        href="#">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                        Products
-                    </a>
-
-                    {{-- Orders --}}
-                    <a class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition"
-                        href="#">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-                            </path>
-                        </svg>
-                        Orders
-                    </a>
-
                 </nav>
             </div>
 
@@ -183,7 +159,6 @@
 
         {{-- ============ MAIN CONTENT AREA ============ --}}
         <main class="flex-1 min-w-0">
-            {{-- Flash Messages --}}
             @if (session('success'))
                 <div
                     class="mb-6 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3.5 text-emerald-800 text-sm flex items-center gap-3 shadow-xs">
@@ -210,10 +185,9 @@
 
             @yield('content')
         </main>
-
     </div>
 
-    {{-- Simple Mobile Sidebar Script --}}
+    {{-- Mobile Sidebar Script --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const toggleBtn = document.getElementById('admin-sidebar-toggle');
@@ -231,6 +205,48 @@
             if (overlay) overlay.addEventListener('click', toggleSidebar);
         });
     </script>
+
+    {{-- Include Global Delete Confirmation Modal Partial --}}
+    @include('admin.layouts.partials.delete-modal')
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteModal = document.getElementById('delete-modal');
+            const modalDeleteForm = document.getElementById('modal-delete-form');
+            const modalItemTitle = document.getElementById('modal-item-title');
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+
+            // Sabhi delete buttons par click event lagayein
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const url = button.getAttribute('data-url');
+                    const title = button.getAttribute('data-title');
+
+                    // Form ka action aur title set karein
+                    modalDeleteForm.setAttribute('action', url);
+                    modalItemTitle.textContent = title;
+
+                    // Modal show karein
+                    deleteModal.classList.remove('hidden');
+                });
+            });
+
+            // Cancel button ya background click par modal band karein
+            function closeModal() {
+                deleteModal.classList.add('hidden');
+            }
+
+            if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+            if (deleteModal) {
+                deleteModal.addEventListener('click', (e) => {
+                    if (e.target === deleteModal) closeModal();
+                });
+            }
+        });
+    </script>
+
+
+
 </body>
 
 </html>

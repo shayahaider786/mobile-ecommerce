@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Click on dots to change slide
         dots.forEach((dot) => {
             dot.addEventListener('click', (e) => {
-                clearInterval(autoSlideInterval); // Stop auto slide on manual click
+                clearInterval(autoSlideInterval);
                 const index = parseInt(e.target.getAttribute('data-index'));
                 updateSlider(index);
-                startAutoSlide(); // Restart auto slide
+                startAutoSlide();
             });
         });
     }
