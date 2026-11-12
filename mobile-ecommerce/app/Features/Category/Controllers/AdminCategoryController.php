@@ -21,7 +21,8 @@ class AdminCategoryController extends Controller
 
     public function create()
     {
-        return view('admin.categories.create');
+        $parentCategories = Category::whereNull('parent_id')->orderBy('name')->get();
+        return view('admin.categories.create', compact('parentCategories'));
     }
 
     public function store(StoreCategoryRequest $request)
@@ -42,7 +43,8 @@ class AdminCategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        $parentCategories = Category::whereNull('parent_id')->orderBy('name')->get();
+        return view('admin.categories.edit', compact('category', 'parentCategories'));
     }
 
     public function update(StoreCategoryRequest $request, Category $category)

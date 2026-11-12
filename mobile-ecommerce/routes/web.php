@@ -6,6 +6,7 @@ use App\Features\Auth\Controllers\UserAuthController;
 use App\Features\Category\Controllers\AdminCategoryController;
 use App\Features\Category\Controllers\CategoryController;
 use App\Features\Banner\Controllers\AdminBannerController;
+use App\Features\Navigation\Controllers\AdminNavigationController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Category & Banner CRUD (Yeh ANDAR aayenge)
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('banners', AdminBannerController::class);
+        Route::resource('navigation', AdminNavigationController::class);
     });
 
 });

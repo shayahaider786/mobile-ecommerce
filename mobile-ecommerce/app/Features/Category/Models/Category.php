@@ -16,6 +16,7 @@ class Category extends Model
         'description',
         'image',
         'is_active',
+        'parent_id',
         'sort_order',
     ];
 
@@ -49,5 +50,14 @@ class Category extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function parent() 
+    { 
+        return $this->belongsTo(Category::class, 'parent_id'); 
+    }
+    public function children()
+    { 
+        return $this->hasMany(Category::class, 'parent_id'); 
     }
 }

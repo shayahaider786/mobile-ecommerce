@@ -21,7 +21,7 @@
                                 class="block md:hidden w-full h-full object-cover" alt="{{ $banner->title }}">
 
                             <!-- Text Overlay -->
-                            <div class="absolute inset-0 bg-black/40 flex items-center">
+                            <div class="absolute inset-0  flex items-center">
                                 <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full">
                                     <div class="max-w-lg text-white">
                                         @if ($banner->subtitle)
