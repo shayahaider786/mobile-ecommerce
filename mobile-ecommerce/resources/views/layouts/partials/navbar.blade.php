@@ -1,4 +1,3 @@
-<!-- ================= TOP NAVBAR ================= -->
 <header class="bg-[#0f172a] border-b border-slate-800 sticky top-0 z-40 text-white w-full">
     <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="flex justify-between items-center h-20 w-full gap-4">
