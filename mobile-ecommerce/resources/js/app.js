@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
             currentIndex = index;
             heroSlider.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-            // Update active dot style
             dots.forEach((dot, i) => {
                 if (i === currentIndex) {
                     dot.classList.add('active');
@@ -90,10 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Initialize first dot
         updateSlider(0);
 
-        // Auto slide every 4 seconds
         function startAutoSlide() {
             autoSlideInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % totalSlides;
@@ -103,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startAutoSlide();
 
-        // Click on dots to change slide
         dots.forEach((dot) => {
             dot.addEventListener('click', (e) => {
                 clearInterval(autoSlideInterval);
@@ -114,21 +110,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 5. CUSTOM DYNAMIC PRODUCT SLIDERS (Swiper Removed) ---
+    const productSwipers = document.querySelectorAll('.custom-product-swiper');
+    
+    productSwipers.forEach((swiper) => {
+        const track = swiper.querySelector('.custom-product-track');
+        const prevBtn = swiper.querySelector('.custom-prev');
+        const nextBtn = swiper.querySelector('.custom-next');
+        
+        if (track && prevBtn && nextBtn) {
+            // Har product card ki width ke hisaab se scroll amount calculate karo
+            const getScrollAmount = () => {
+                const firstItem = track.querySelector('.custom-product-item');
+                if (firstItem) {
+                    // Card ki width + gap (24px)
+                    return firstItem.offsetWidth + 24; 
+                }
+                return 300; // Default fallback
+            };
 
-    // --- 5. Dynamic Product Sliders (Home Page) ---
-    document.querySelectorAll('.product-swiper').forEach(function (swiperElement) {
-        new Swiper(swiperElement, {
-            modules: [Navigation, Autoplay, Pagination],
-            slidesPerView: 2,
-            spaceBetween: 16,
-            breakpoints: {
-                640: { slidesPerView: 3, spaceBetween: 20 },
-                1024: { slidesPerView: 4, spaceBetween: 24 }
-            },
-            pagination: {
-                el: swiperElement.querySelector('.swiper-pagination'),
-                clickable: true,
-            },
-        });
+            nextBtn.addEventListener('click', () => {
+                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+            });
+        }
     });
 });

@@ -5,6 +5,7 @@ namespace App\Features\Homepage\Controllers;
 use App\Http\Controllers\Controller;
 use App\Features\Homepage\Models\HomeSection;
 use App\Features\Homepage\Services\HomepageService;
+use App\Features\Category\Models\Category;
 use Illuminate\Http\Request;
 
 class AdminHomeSectionController extends Controller
@@ -12,10 +13,11 @@ class AdminHomeSectionController extends Controller
     public function __construct(private HomepageService $service) {}
 
     public function index()
-    {
-        $sections = $this->service->getAllSections();
-        return view('admin.home-sections.index', compact('sections'));
-    }
+{
+    $sections = $this->service->getAllSections();
+    $categories = Category::where('is_active', true)->orderBy('name')->get(); // <-- Categories fetch
+    return view('admin.home-sections.index', compact('sections', 'categories'));
+}
 
     public function create()
     {
@@ -50,12 +52,12 @@ class AdminHomeSectionController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'category_id' => 'nullable|exists:categories,id', // <-- Validation
             'sort_order' => 'integer',
             'limit' => 'nullable|integer|min:1',
             'layout' => 'required|in:grid,slider',
         ]);
 
-        // Agar limit disabled tha aur value nahi aayi, toh purani value hi rahne do
         $validated['limit'] = $validated['limit'] ?? $homeSection->limit ?? 8;
         $validated['is_active'] = $request->has('is_active');
 

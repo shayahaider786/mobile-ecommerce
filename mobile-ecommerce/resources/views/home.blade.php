@@ -8,40 +8,32 @@
     <section class="relative w-full bg-slate-900 overflow-hidden">
         @if ($banners->count() > 0)
             <div class="relative w-full h-[450px] md:h-[450px] sm:h-[400px]">
-                <!-- Slider Track -->
                 <div id="hero-slider" class="flex w-full h-full transition-transform duration-500 ease-in-out">
                     @foreach ($banners as $banner)
                         <div class="hero-slide min-w-full h-full relative flex-shrink-0">
-                            <!-- Desktop Image -->
                             <img src="{{ asset('banners/' . $banner->desktop_image) }}"
                                 class="hidden md:block w-full h-full object-cover" alt="{{ $banner->title }}">
-
-                            <!-- Mobile Image -->
                             <img src="{{ asset('banners/' . ($banner->mobile_image ?? $banner->desktop_image)) }}"
                                 class="block md:hidden w-full h-full object-cover" alt="{{ $banner->title }}">
 
-                            <!-- Text Overlay -->
-                            <div class="absolute inset-0  flex items-center">
+                            <div class="absolute inset-0 flex items-center">
                                 <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full">
                                     <div class="max-w-lg text-white">
                                         @if ($banner->subtitle)
                                             <span
                                                 class="inline-block py-1 px-3 rounded bg-teal-500 text-xs font-bold tracking-wider mb-4 uppercase">Featured</span>
                                         @endif
-
                                         @if ($banner->title)
                                             <h1
                                                 class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 drop-shadow-lg">
                                                 {{ $banner->title }}
                                             </h1>
                                         @endif
-
                                         @if ($banner->subtitle)
                                             <p class="text-sm md:text-lg mb-8 drop-shadow-md text-gray-100">
                                                 {{ $banner->subtitle }}
                                             </p>
                                         @endif
-
                                         @if ($banner->button_name && $banner->link)
                                             <a href="{{ $banner->link }}"
                                                 class="inline-block bg-white text-slate-900 font-bold px-8 py-3 rounded hover:bg-teal-500 hover:text-white transition shadow-lg">
@@ -55,7 +47,6 @@
                     @endforeach
                 </div>
 
-                <!-- Custom Dots Pagination (Bottom) -->
                 <div id="hero-dots" class="absolute bottom-4 left-0 right-0 z-10 flex justify-center gap-2">
                     @foreach ($banners as $index => $banner)
                         <button data-index="{{ $index }}"
@@ -78,8 +69,6 @@
                     <h2 class="text-3xl font-bold text-slate-900">Shop by Category</h2>
                     <p class="text-slate-500 mt-2">Find exactly what you're looking for.</p>
                 </div>
-
-                <!-- Slider Arrows -->
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2">
                         <button id="category-prev"
@@ -100,15 +89,14 @@
                 </div>
             </div>
 
-            <!-- Slider Container -->
             <div class="relative">
                 <div id="category-slider" class="category-slider-track flex gap-8 overflow-x-auto pb-6 pt-2 scroll-smooth">
                     @forelse($categories as $index => $category)
                         <a href="{{ route('categories.show', $category->slug) }}"
                             class="category-item group flex flex-col items-center flex-shrink-0 text-center">
-                            <!-- Round Colored Background Box -->
                             <div class="category-circle-box circle-bg-{{ $index % 5 }}">
                                 @if ($category->image)
+                                    <!-- Fixed Image Path: category-images se categories kar diya -->
                                     <img src="{{ asset('category-images/' . $category->image) }}"
                                         alt="{{ $category->name }}"
                                         class="w-4/5 h-4/5 object-contain group-hover:scale-110 transition-transform duration-300">
@@ -116,13 +104,12 @@
                                     <span class="text-slate-500 text-xs font-semibold">No Image</span>
                                 @endif
                             </div>
-                            <!-- Category Name Below -->
                             <h3 class="mt-3 text-slate-800 font-bold text-base group-hover:text-teal-600 transition-colors">
                                 {{ $category->name }}
                             </h3>
                         </a>
                     @empty
-                        <!-- Dummy Categories with Dynamic Background Colors -->
+                        <!-- Dummy Categories -->
                         @php
                             $dummies = [
                                 ['name' => 'DataCable', 'bg' => 'bg-emerald-200'],
@@ -136,7 +123,6 @@
                                 ['name' => 'OTG Card-Readers', 'bg' => 'bg-yellow-300'],
                             ];
                         @endphp
-
                         @foreach ($dummies as $dummy)
                             <a href="#"
                                 class="category-item group flex flex-col items-center flex-shrink-0 text-center">
@@ -146,8 +132,7 @@
                                 </div>
                                 <h3
                                     class="mt-3 text-slate-800 font-bold text-base group-hover:text-teal-600 transition-colors">
-                                    {{ $dummy['name'] }}
-                                </h3>
+                                    {{ $dummy['name'] }}</h3>
                             </a>
                         @endforeach
                     @endforelse
@@ -159,41 +144,72 @@
     <!-- ================= DYNAMIC HOMEPAGE SECTIONS ================= -->
     @foreach ($homeSections as $section)
 
-        {{-- 🟢 1. PRODUCTS SECTION (Featured, Trending, New Arrivals etc.) --}}
+        {{-- 🟢 1. PRODUCTS SECTION (Dynamic Category & Dummy Data) --}}
         @if (str_contains($section->section_key, 'product') ||
-                $section->section_key == 'featured_products' ||
-                $section->section_key == 'trending_products')
+                in_array($section->section_key, ['featured_products', 'trending_products']))
             <section class="py-12 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-end mb-6">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">{{ $section->title }}</h2>
-                            <p class="text-slate-500 mt-1">Check out our latest collection.</p>
+                            <p class="text-slate-500 mt-1">
+                                @if ($section->category)
+                                    Explore the best in {{ $section->category->name }}
+                                @else
+                                    Check out our latest collection.
+                                @endif
+                            </p>
                         </div>
-                        <a href="#"
-                            class="hidden md:inline-block text-teal-600 font-semibold hover:text-teal-800">View All
-                            &rarr;</a>
+                        @if ($section->category)
+                            <a href="{{ route('categories.show', $section->category->slug) }}"
+                                class="hidden md:inline-block text-teal-600 font-semibold hover:text-teal-800">
+                                View All &rarr;
+                            </a>
+                        @endif
                     </div>
 
-                    <!-- Agar Layout Grid hai -->
                     @if ($section->layout == 'grid')
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                             @for ($i = 0; $i < $section->limit; $i++)
-                                @include('layouts.partials.product-card')
+                                @include('layouts.partials.product-card', [
+                                    'categoryName' => $section->category->name ?? 'Product',
+                                ])
                             @endfor
                         </div>
-
-                        <!-- Agar Layout Slider hai -->
                     @else
-                        <div class="swiper product-swiper pb-8">
-                            <div class="swiper-wrapper">
+                        <!-- Custom Product Slider -->
+                        <div class="custom-product-swiper relative">
+                            <!-- Track (Jahan products scroll honge) -->
+                            <div class="custom-product-track flex gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth"
+                                style="scrollbar-width: none; -ms-overflow-style: none;">
                                 @for ($i = 0; $i < $section->limit; $i++)
-                                    <div class="swiper-slide">
-                                        @include('layouts.partials.product-card')
+                                    <!-- Item (Har product ka card) -->
+                                    <div
+                                        class="custom-product-item w-[calc(50%-12px)] sm:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] flex-shrink-0">
+                                        @include('layouts.partials.product-card', [
+                                            'categoryName' => $section->category->name ?? 'Product',
+                                        ])
                                     </div>
                                 @endfor
                             </div>
-                            <div class="swiper-pagination"></div>
+
+                            <!-- Slider Arrows (Left/Right) -->
+                            <div class="flex justify-end gap-2 mt-4">
+                                <button
+                                    class="custom-prev p-2 rounded-full border border-slate-200 hover:bg-slate-100 text-slate-700 transition">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                </button>
+                                <button
+                                    class="custom-next p-2 rounded-full border border-slate-200 hover:bg-slate-100 text-slate-700 transition">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -206,8 +222,6 @@
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-bold text-slate-900">{{ $section->title }}</h2>
                     </div>
-
-                    <!-- 3 Image Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         @for ($i = 1; $i <= 3; $i++)
                             <div class="relative rounded-2xl overflow-hidden h-96 group">
@@ -234,7 +248,6 @@
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-bold text-white">{{ $section->title }}</h2>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         @for ($i = 0; $i < $section->limit; $i++)
                             <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
@@ -255,7 +268,7 @@
                 </div>
             </section>
 
-            {{-- 🟢 4. CUSTOM SECTIONS (Agar user koi naya section banaye jo upar nahi hai) --}}
+            {{-- 🟢 4. CUSTOM SECTIONS --}}
         @else
             <section class="py-12 bg-white">
                 <div
