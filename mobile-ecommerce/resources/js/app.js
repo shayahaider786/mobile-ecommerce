@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateSlider(index) {
             currentIndex = index;
             heroSlider.style.transform = `translateX(-${currentIndex * 100}%)`;
-            
+
             // Update active dot style
             dots.forEach((dot, i) => {
                 if (i === currentIndex) {
@@ -113,4 +113,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+
+    // --- 5. Dynamic Product Sliders (Home Page) ---
+    document.querySelectorAll('.product-swiper').forEach(function (swiperElement) {
+        new Swiper(swiperElement, {
+            modules: [Navigation, Autoplay, Pagination],
+            slidesPerView: 2,
+            spaceBetween: 16,
+            breakpoints: {
+                640: { slidesPerView: 3, spaceBetween: 20 },
+                1024: { slidesPerView: 4, spaceBetween: 24 }
+            },
+            pagination: {
+                el: swiperElement.querySelector('.swiper-pagination'),
+                clickable: true,
+            },
+        });
+    });
 });

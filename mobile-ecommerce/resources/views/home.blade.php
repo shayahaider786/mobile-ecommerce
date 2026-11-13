@@ -156,207 +156,116 @@
         </div>
     </section>
 
-    <!-- ================= 3. TRENDING PRODUCTS ================= -->
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-900">Trending Now</h2>
-                <p class="text-slate-500 mt-2">Most popular picks this week.</p>
-            </div>
+    <!-- ================= DYNAMIC HOMEPAGE SECTIONS ================= -->
+    @foreach ($homeSections as $section)
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Dummy Product Cards -->
-                @for ($i = 0; $i < 4; $i++)
-                    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition group relative overflow-hidden">
-                        <div class="relative h-64 bg-slate-200 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop"
-                                alt="Product"
-                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <button
-                                class="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md text-slate-400 hover:text-red-500 transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                                    </path>
-                                </svg>
-                            </button>
+        {{-- 🟢 1. PRODUCTS SECTION (Featured, Trending, New Arrivals etc.) --}}
+        @if (str_contains($section->section_key, 'product') ||
+                $section->section_key == 'featured_products' ||
+                $section->section_key == 'trending_products')
+            <section class="py-12 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-900">{{ $section->title }}</h2>
+                            <p class="text-slate-500 mt-1">Check out our latest collection.</p>
                         </div>
-                        <div class="p-5">
-                            <p class="text-sm text-indigo-600 font-semibold mb-1">Category</p>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2 truncate">Trending Product Name</h3>
-                            <div class="flex items-center justify-between">
-                                <p class="text-xl font-bold text-slate-900">$99.00</p>
-                                <button class="bg-slate-900 text-white p-2 rounded-lg hover:bg-indigo-600 transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                                        </path>
-                                    </svg>
-                                </button>
+                        <a href="#"
+                            class="hidden md:inline-block text-teal-600 font-semibold hover:text-teal-800">View All
+                            &rarr;</a>
+                    </div>
+
+                    <!-- Agar Layout Grid hai -->
+                    @if ($section->layout == 'grid')
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                            @for ($i = 0; $i < $section->limit; $i++)
+                                @include('layouts.partials.product-card')
+                            @endfor
+                        </div>
+
+                        <!-- Agar Layout Slider hai -->
+                    @else
+                        <div class="swiper product-swiper pb-8">
+                            <div class="swiper-wrapper">
+                                @for ($i = 0; $i < $section->limit; $i++)
+                                    <div class="swiper-slide">
+                                        @include('layouts.partials.product-card')
+                                    </div>
+                                @endfor
                             </div>
+                            <div class="swiper-pagination"></div>
                         </div>
-                    </div>
-                @endfor
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= 4. BEST SELLING PRODUCTS (3 Image Grid) ================= -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-900">Best Selling</h2>
-                <p class="text-slate-500 mt-2">Our customers' favorites.</p>
-            </div>
-
-            <!-- 3 Image Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                <!-- Image 1 -->
-                <div class="relative rounded-2xl overflow-hidden h-96 group">
-                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop"
-                        alt="Collection 1"
-                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition"></div>
-                    <div class="absolute inset-0 flex flex-col justify-end p-8">
-                        <h3 class="text-2xl font-bold text-white mb-2">Women's Fashion</h3>
-                        <a href="#"
-                            class="text-white font-semibold underline decoration-2 underline-offset-4 hover:text-indigo-300">Shop
-                            Collection</a>
-                    </div>
+                    @endif
                 </div>
+            </section>
 
-                <!-- Image 2 -->
-                <div class="relative rounded-2xl overflow-hidden h-96 group">
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"
-                        alt="Collection 2"
-                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition"></div>
-                    <div class="absolute inset-0 flex flex-col justify-end p-8">
-                        <h3 class="text-2xl font-bold text-white mb-2">Premium Watches</h3>
-                        <a href="#"
-                            class="text-white font-semibold underline decoration-2 underline-offset-4 hover:text-indigo-300">Shop
-                            Collection</a>
+            {{-- 🟢 2. BEST SELLING COLLECTIONS (3 Image Grid) --}}
+        @elseif($section->section_key == 'banners_grid')
+            <section class="py-12 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-slate-900">{{ $section->title }}</h2>
                     </div>
-                </div>
 
-                <!-- Image 3 -->
-                <div class="relative rounded-2xl overflow-hidden h-96 group">
-                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop"
-                        alt="Collection 3"
-                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition"></div>
-                    <div class="absolute inset-0 flex flex-col justify-end p-8">
-                        <h3 class="text-2xl font-bold text-white mb-2">Sports Shoes</h3>
-                        <a href="#"
-                            class="text-white font-semibold underline decoration-2 underline-offset-4 hover:text-indigo-300">Shop
-                            Collection</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= 5. FEATURED PRODUCTS ================= -->
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <h2 class="text-3xl font-bold text-slate-900">Featured Products</h2>
-                    <p class="text-slate-500 mt-2">Handpicked just for you.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @for ($i = 0; $i < 4; $i++)
-                    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition group relative overflow-hidden">
-                        <div class="relative h-64 bg-slate-200 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop"
-                                alt="Product"
-                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <div
-                                class="absolute top-3 left-3 bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded">
-                                FEATURED</div>
-                        </div>
-                        <div class="p-5">
-                            <p class="text-sm text-slate-500 mb-1">Electronics</p>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2 truncate">Wireless Headphones</h3>
-                            <div class="flex items-center justify-between mt-4">
-                                <p class="text-xl font-bold text-slate-900">$199.00</p>
-                                <a href="#"
-                                    class="text-indigo-600 font-semibold text-sm hover:text-indigo-800">Details</a>
+                    <!-- 3 Image Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        @for ($i = 1; $i <= 3; $i++)
+                            <div class="relative rounded-2xl overflow-hidden h-96 group">
+                                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop"
+                                    alt="Collection {{ $i }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition"></div>
+                                <div class="absolute inset-0 flex flex-col justify-end p-8">
+                                    <h3 class="text-2xl font-bold text-white mb-2">Collection {{ $i }}</h3>
+                                    <a href="#"
+                                        class="text-white font-semibold underline decoration-2 underline-offset-4 hover:text-teal-300">Shop
+                                        Collection</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                @endfor
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= 6. TESTIMONIALS ================= -->
-    <section class="py-20 bg-indigo-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-white">What Our Customers Say</h2>
-                <p class="text-indigo-200 mt-2">Trusted by thousands of happy shoppers.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                <!-- Testimonial 1 -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                    <div class="flex text-yellow-400 mb-4">
-                        ★★★★★
-                    </div>
-                    <p class="text-indigo-50 mb-6 italic">"Absolutely love the quality of products here. The delivery was
-                        super fast and the packaging was premium. Highly recommended!"</p>
-                    <div class="flex items-center">
-                        <img src="https://i.pravatar.cc/150?img=1" alt="User"
-                            class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-400">
-                        <div>
-                            <h4 class="text-white font-bold">Sarah Khan</h4>
-                            <p class="text-indigo-300 text-sm">Verified Buyer</p>
-                        </div>
+                        @endfor
                     </div>
                 </div>
+            </section>
 
-                <!-- Testimonial 2 -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                    <div class="flex text-yellow-400 mb-4">
-                        ★★★★★
+            {{-- 🟢 3. TESTIMONIALS SECTION --}}
+        @elseif($section->section_key == 'testimonials')
+            <section class="py-16 bg-slate-900">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-white">{{ $section->title }}</h2>
                     </div>
-                    <p class="text-indigo-50 mb-6 italic">"ShopEase is my go-to store for everything now. The website is so
-                        easy to use and they always have amazing discounts."</p>
-                    <div class="flex items-center">
-                        <img src="https://i.pravatar.cc/150?img=2" alt="User"
-                            class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-400">
-                        <div>
-                            <h4 class="text-white font-bold">Ali Raza</h4>
-                            <p class="text-indigo-300 text-sm">Verified Buyer</p>
-                        </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        @for ($i = 0; $i < $section->limit; $i++)
+                            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                                <div class="flex text-yellow-400 mb-4">★★★★★</div>
+                                <p class="text-slate-300 italic mb-6">"Amazing products and super fast delivery. Highly
+                                    recommended for everyone!"</p>
+                                <div class="flex items-center">
+                                    <img src="https://i.pravatar.cc/150?img={{ $i + 1 }}"
+                                        class="w-10 h-10 rounded-full mr-3" alt="User">
+                                    <div>
+                                        <h4 class="text-white font-bold text-sm">Customer {{ $i + 1 }}</h4>
+                                        <p class="text-slate-500 text-xs">Verified Buyer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endfor
                     </div>
                 </div>
+            </section>
 
-                <!-- Testimonial 3 -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                    <div class="flex text-yellow-400 mb-4">
-                        ★★★★★
-                    </div>
-                    <p class="text-indigo-50 mb-6 italic">"Best customer service I've experienced in a long time. Had a
-                        small issue with sizing and they resolved it immediately."</p>
-                    <div class="flex items-center">
-                        <img src="https://i.pravatar.cc/150?img=5" alt="User"
-                            class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-400">
-                        <div>
-                            <h4 class="text-white font-bold">Ayesha Malik</h4>
-                            <p class="text-indigo-300 text-sm">Verified Buyer</p>
-                        </div>
-                    </div>
+            {{-- 🟢 4. CUSTOM SECTIONS (Agar user koi naya section banaye jo upar nahi hai) --}}
+        @else
+            <section class="py-12 bg-white">
+                <div
+                    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center border-2 border-dashed border-gray-300 rounded-xl p-10">
+                    <h2 class="text-2xl font-bold text-slate-800">{{ $section->title }}</h2>
+                    <p class="text-slate-500 mt-2">This is a custom section. Add your specific content here.</p>
                 </div>
+            </section>
+        @endif
 
-            </div>
-        </div>
-    </section>
+    @endforeach
 
 @endsection
